@@ -1,0 +1,24 @@
+{
+  "name": "rest-hapi-ws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "lab test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^11.1.0",
+    "inert": "^3.2.0",
+    "joi": "^7.0.0",
+    "lout": "^7.2.0",
+    "minimist": "^1.2.0",
+    "mongodb": "^2.0.47",
+    "vision": "^4.0.0"
+  },
+  "devDependencies": {
+    "code": "^2.0.1",
+    "lab": "^7.2.0"
+  }
+}
