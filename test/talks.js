@@ -2,17 +2,26 @@
 
 const Lab = require('lab')
 const Code = require('code')
+const Hapi = require('hapi')
 
 const lab = exports.lab = Lab.script()
 const describe = lab.describe
 const it = lab.it
 const expect = Code.expect
+const beforeEach = lab.beforeEach
 
-const buildServer = require('./server')
+const talks = require('../lib/talks')
 
-describe('server', () => {
+describe('talks', () => {
+  let server
+
+  beforeEach((done) => {
+    server = new Hapi.Server()
+    server.connection({ port: 0 })
+    server.register(talks, done)
+  })
+
   it('should support a /talks endpoint', (done) => {
-    const server = buildServer()
     server.inject('/talks', (res) => {
       expect(JSON.parse(res.payload)).to.deep.equal([])
       done()
