@@ -3,24 +3,22 @@
 const minimist = require('minimist')
 const Hapi = require('hapi')
 
-function build (opts) {
+function build (opts, cb) {
   const server = new Hapi.Server()
   const port = opts && opts.port || 3000
 
   server.connection({ port: port })
 
-  server.route({
-    method: 'GET',
-    path: '/talks',
-    handler: function handleTalks (request, reply) {
-      return reply(null, [])
-    }
-  })
+  server.register([
+    require('./talks')
+  ], cb || noop)
 
   return server
 }
 
 module.exports = build
+
+function noop () {}
 
 function start (opts) {
   const server = build(opts)
