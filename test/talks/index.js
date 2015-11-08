@@ -50,6 +50,7 @@ describe('talks', () => {
       payload: expected
     }, (res) => {
       const stored = JSON.parse(res.payload)
+      expect(res.statusCode).to.equal(201)
       expect(stored).to.include(expected)
       server.inject('/talks', (res) => {
         expect(JSON.parse(res.payload)).to.deep.equal([stored])
@@ -71,6 +72,7 @@ describe('talks', () => {
       const stored = JSON.parse(res.payload)
       expect(stored).to.include(expected)
       server.inject('/talks/' + stored._id, (res) => {
+        expect(res.statusCode).to.equal(200)
         expect(JSON.parse(res.payload)).to.deep.equal(stored)
         done()
       })
