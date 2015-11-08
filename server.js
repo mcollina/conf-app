@@ -10,13 +10,18 @@ function build (opts, cb) {
 
   server.connection({ port: opts.port })
 
-  server.register([{
-    register: require('hapi-mongodb'),
-    options: {
-      url: opts.url
-    }
-  }, require('./lib/talks')], (err) => {
-    cb(err, server)
+  // Register before, otherwise the route config auth to simple will fail
+  server.register(require('hapi-auth-basic'), (err) => {
+    if (err) return cb(err)
+    server.auth.strategy('simple', 'basic', { validateFunc: require('./lib/users/check')(server) })
+    server.register([{
+      register: require('hapi-mongodb'),
+      options: {
+        url: opts.url
+      }
+    }, require('./lib/talks'), require('./lib/users')], (err) => {
+      cb(err, server)
+    })
   })
 
   return server
