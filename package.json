@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard",
-    "test": "lab"
+    "test": "lab test test/*"
   },
   "precommit": [
     "lint",

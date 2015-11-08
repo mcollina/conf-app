@@ -5,11 +5,10 @@ const Hapi = require('hapi')
 
 function build (opts, cb) {
   const server = new Hapi.Server()
-  const port = opts && opts.port || 3000
 
   cb = cb || noop
 
-  server.connection({ port: port })
+  server.connection({ port: opts.port })
 
   server.register([
     require('./lib/talks')
@@ -45,6 +44,9 @@ if (require.main === module) {
     integer: ['port'],
     alias: {
       port: 'p'
+    },
+    default: {
+      port: 3000
     }
   }), (err, server) => {
     if (err) {
