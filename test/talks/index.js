@@ -59,6 +59,34 @@ describe('talks', () => {
     })
   })
 
+  it('should not POST /talks with missing speaker', (done) => {
+    const expected = {
+      title: 'We are not Object-Oriented anymore'
+    }
+    server.inject({
+      method: 'POST',
+      url: '/talks',
+      payload: expected
+    }, (res) => {
+      expect(res.statusCode).to.equal(400)
+      done()
+    })
+  })
+
+  it('should not POST /talks with missing speaker', (done) => {
+    const expected = {
+      speaker: 'Mateo Collina'
+    }
+    server.inject({
+      method: 'POST',
+      url: '/talks',
+      payload: expected
+    }, (res) => {
+      expect(res.statusCode).to.equal(400)
+      done()
+    })
+  })
+
   it('should GET /talks/{id}', (done) => {
     const expected = {
       title: 'We are not Object-Oriented anymore',
