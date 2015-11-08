@@ -10,9 +10,12 @@ function build (opts, cb) {
 
   server.connection({ port: opts.port })
 
-  server.register([
-    require('./lib/talks')
-  ], (err) => {
+  server.register([{
+    register: require('hapi-mongodb'),
+    options: {
+      url: opts.url
+    }
+  }, require('./lib/talks')], (err) => {
     cb(err, server)
   })
 

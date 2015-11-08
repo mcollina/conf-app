@@ -11,9 +11,9 @@ const expect = Code.expect
 const beforeEach = lab.beforeEach
 const afterEach = lab.afterEach
 
-const talks = require('../../lib/data/talks')
+const url = require('../helper').url
 
-const url = 'mongodb://localhost:27017/tests'
+const talks = require('../../lib/talks/data')
 
 describe('talks', () => {
   let db
@@ -46,6 +46,39 @@ describe('talks', () => {
         expect(err).to.be.null()
         expect(entry2).to.deep.equal(entry)
         done()
+      })
+    })
+  })
+
+  it('should put and list entries', (done) => {
+    const instance = talks(db)
+    const expected1 = {
+      title: 'Hapi workshop',
+      speaker: 'Matteo Collina'
+    }
+    const expected2 = {
+      title: 'Connected House',
+      speaker: 'Marco Piraccini'
+    }
+
+    instance.put(expected1, (err, entry1) => {
+      expect(err).to.be.null()
+      expect(entry1).to.include(expected1)
+      expect(entry1._id).to.exists()
+
+      instance.put(expected2, (err, entry2) => {
+        expect(err).to.be.null()
+        expect(entry2).to.include(expected2)
+        expect(entry2._id).to.exists()
+
+        instance.list((err, entries) => {
+          expect(err).to.be.null()
+          expect(entries).to.deep.equal([
+            entry1,
+            entry2
+          ])
+          done()
+        })
       })
     })
   })
