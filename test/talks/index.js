@@ -22,9 +22,17 @@ describe('talks', () => {
     server = new Hapi.Server()
     server.connection({ port: 0 })
 
-    server.register(require('hapi-auth-basic'), (err) => {
+    server.register(require('hapi-auth-cookie'), (err) => {
       if (err) return done(err)
-      server.auth.strategy('simple', 'basic', { validateFunc: require('../../lib/users/check')(server) })
+
+      // Authentication strategies
+      server.auth.strategy('session', 'cookie', true, {
+        password: 'supersecretpassword', // cookie secret
+        cookie: 'workshop-cookie', // Cookie name
+        ttl: 60 * 60 * 1000, // Set session to 1 hour
+        isSecure: false // IF NOT THE AUTH FAILS IF NOT HTTPS
+      })
+
       server.register([{
         register: require('hapi-mongodb'),
         options: {
