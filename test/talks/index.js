@@ -13,6 +13,7 @@ const beforeEach = lab.beforeEach
 const url = require('../helper').url
 
 const talks = require('../../lib/talks')
+const testCredentials = {username: 'test', password: 'test'}
 
 describe('talks', () => {
   let server
@@ -20,20 +21,32 @@ describe('talks', () => {
   beforeEach((done) => {
     server = new Hapi.Server()
     server.connection({ port: 0 })
-    server.register([{
-      register: require('hapi-mongodb'),
-      options: {
-        url: url
-      }
-    }, talks], (err) => {
-      if (err) { return done(err) }
 
-      clean(server.plugins['hapi-mongodb'].db, done)
+    server.register(require('hapi-auth-cookie'), (err) => {
+      if (err) return done(err)
+
+      // Authentication strategies
+      server.auth.strategy('session', 'cookie', true, {
+        password: 'supersecretpassword', // cookie secret
+        cookie: 'workshop-cookie', // Cookie name
+        ttl: 60 * 60 * 1000, // Set session to 1 hour
+        isSecure: false // IF NOT THE AUTH FAILS IF NOT HTTPS
+      })
+
+      server.register([{
+        register: require('hapi-mongodb'),
+        options: {
+          url: url
+        }
+      }, talks], (err) => {
+        if (err) { return done(err) }
+        clean(server.plugins['hapi-mongodb'].db, done)
+      })
     })
   })
 
   it('should GET empty /talks', (done) => {
-    server.inject('/talks', (res) => {
+    server.inject({url: '/talks', credentials: testCredentials}, (res) => {
       expect(JSON.parse(res.payload)).to.deep.equal([])
       done()
     })
@@ -47,12 +60,13 @@ describe('talks', () => {
     server.inject({
       method: 'POST',
       url: '/talks',
-      payload: expected
+      payload: expected,
+      credentials: testCredentials
     }, (res) => {
       const stored = JSON.parse(res.payload)
       expect(res.statusCode).to.equal(201)
       expect(stored).to.include(expected)
-      server.inject('/talks', (res) => {
+      server.inject({url: '/talks', credentials: testCredentials}, (res) => {
         expect(JSON.parse(res.payload)).to.deep.equal([stored])
         done()
       })
@@ -66,7 +80,8 @@ describe('talks', () => {
     server.inject({
       method: 'POST',
       url: '/talks',
-      payload: expected
+      payload: expected, credentials: testCredentials
+
     }, (res) => {
       expect(res.statusCode).to.equal(400)
       done()
@@ -80,7 +95,8 @@ describe('talks', () => {
     server.inject({
       method: 'POST',
       url: '/talks',
-      payload: expected
+      payload: expected, credentials: testCredentials
+
     }, (res) => {
       expect(res.statusCode).to.equal(400)
       done()
@@ -95,11 +111,12 @@ describe('talks', () => {
     server.inject({
       method: 'POST',
       url: '/talks',
-      payload: expected
+      payload: expected, credentials: testCredentials
+
     }, (res) => {
       const stored = JSON.parse(res.payload)
       expect(stored).to.include(expected)
-      server.inject('/talks/' + stored._id, (res) => {
+      server.inject({url: '/talks/' + stored._id, credentials: testCredentials}, (res) => {
         expect(res.statusCode).to.equal(200)
         expect(JSON.parse(res.payload)).to.deep.equal(stored)
         done()

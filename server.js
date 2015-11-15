@@ -9,14 +9,25 @@ function build (opts, cb) {
   cb = cb || noop
 
   server.connection({ port: opts.port })
+  // Register before, otherwise the route config auth to simple will fail
+  server.register(require('hapi-auth-cookie'), (err) => {
+    if (err) return cb(err)
+    // Authentication strategies
+    server.auth.strategy('session', 'cookie', true, {
+      password: 'supersecretpassword', // cookie secret
+      cookie: 'workshop-cookie', // Cookie name
+      ttl: 60 * 60 * 1000, // Set session to 1 hour
+      isSecure: false // IF NOT THE AUTH FAILS IF NOT HTTPS
+    })
 
-  server.register([{
-    register: require('hapi-mongodb'),
-    options: {
-      url: opts.url
-    }
-  }, require('./lib/talks')], (err) => {
-    cb(err, server)
+    server.register([{
+      register: require('hapi-mongodb'),
+      options: {
+        url: opts.url
+      }
+    }, require('./lib/talks'), require('./lib/users'), require('./lib/auth')], (err) => {
+      cb(err, server)
+    })
   })
 
   return server
