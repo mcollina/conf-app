@@ -20,12 +20,22 @@ function build (opts, cb) {
       isSecure: false // IF NOT THE AUTH FAILS IF NOT HTTPS
     })
 
-    server.register([{
-      register: require('hapi-mongodb'),
-      options: {
-        url: opts.url
+    server.register([
+      {
+        register: require('hapi-mongodb'),
+        options: {
+          url: opts.url
+        }
+      },
+      require('./lib/talks'),
+      require('./lib/users'),
+      require('./lib/auth'),
+      require('vision'),
+      require('inert'),
+      {
+        register: require('lout')
       }
-    }, require('./lib/talks'), require('./lib/users'), require('./lib/auth')], (err) => {
+    ], (err) => {
       cb(err, server)
     })
   })
