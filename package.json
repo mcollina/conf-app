@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard",
-    "test": "lab test/*"
+    "test": "lab test"
   },
   "precommit": [
     "lint",
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^0.8.5",
+    "concat-stream": "^1.5.1",
     "event-stream": "^3.3.2",
     "hapi": "^11.1.0",
     "hapi-auth-basic": "^4.0.0",
