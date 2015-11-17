@@ -1,0 +1,41 @@
+{
+  "name": "rest-hapi-ws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard",
+    "test": "lab test"
+  },
+  "precommit": [
+    "lint",
+    "test"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "concat-stream": "^1.5.1",
+    "event-stream": "^3.3.2",
+    "hapi": "^11.1.0",
+    "hapi-auth-basic": "^4.0.0",
+    "hapi-auth-cookie": "^3.1.0",
+    "hapi-mongodb": "^4.0.1",
+    "inert": "^3.2.0",
+    "joi": "^7.0.0",
+    "lout": "^7.2.0",
+    "minimist": "^1.2.0",
+    "mongodb": "^2.0.47",
+    "pump": "^1.0.1",
+    "request": "^2.65.0",
+    "stream-reduce": "^1.0.3",
+    "vision": "^4.0.1"
+  },
+  "devDependencies": {
+    "code": "^2.0.1",
+    "lab": "^7.2.0",
+    "mongo-clean": "^1.0.0",
+    "pre-commit": "^1.1.2",
+    "standard": "^5.3.1"
+  }
+}
