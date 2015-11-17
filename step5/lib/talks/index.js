@@ -21,7 +21,11 @@ exports.register = function (server, options, next) {
     method: 'POST',
     path: '/talks',
     handler: function addTalk (request, reply) {
-      return talks.put(request.payload, reply)
+      talks.put(request.payload, function wrap (err, result) {
+        if (err) { return reply(err) }
+
+        reply(result).code(201)
+      })
     }
   })
 
