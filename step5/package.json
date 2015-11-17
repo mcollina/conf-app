@@ -1,0 +1,30 @@
+{
+  "name": "rest-hapi-ws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard",
+    "test": "lab test"
+  },
+  "precommit": [
+    "lint",
+    "test"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^11.1.0",
+    "hapi-mongodb": "^4.0.1",
+    "minimist": "^1.2.0",
+    "mongo-clean": "^1.0.0",
+    "mongodb": "^2.0.47",
+    "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "code": "^2.0.1",
+    "lab": "^7.2.0",
+    "pre-commit": "^1.1.2",
+    "standard": "^5.3.1"
+  }
+}
