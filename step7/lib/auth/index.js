@@ -27,7 +27,7 @@ exports.register = function (server, options, next) {
 
       checkUser(username, password, function checkUser (err, isValid) {
         if ((!err) && (isValid)) {
-          request.auth.session.set({username: username})
+          request.cookieAuth.set({username: username})
           return reply('Login Successful')
         }
         return reply('Login NOT Successful')
@@ -40,7 +40,7 @@ exports.register = function (server, options, next) {
     method: 'GET',
     path: '/logout',
     handler: function logout (request, reply) {
-      request.auth.session.clear()
+      request.cookieAuth.clear()
       return reply('Logout Successful')
     }
   })
