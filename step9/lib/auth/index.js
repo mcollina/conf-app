@@ -27,7 +27,7 @@ exports.register = function (server, options, next) {
 
       checkUser(username, password, function checkUser (err, isValid) {
         if ((!err) && (isValid)) {
-          request.auth.session.set({username: 'username'})
+          request.auth.session.set({username: username})
           return reply('Login Successful')
         }
         return reply('Login NOT Successful')
