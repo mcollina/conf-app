@@ -44,7 +44,7 @@ describe('talks', () => {
 
       instance.getById(entry._id, (err, entry2) => {
         expect(err).to.be.null()
-        expect(entry2).to.deep.equal(entry)
+        expect(entry2).to.equal(entry)
         done()
       })
     })
@@ -73,7 +73,7 @@ describe('talks', () => {
 
         instance.list((err, entries) => {
           expect(err).to.be.null()
-          expect(entries).to.deep.equal([
+          expect(entries).to.equal([
             entry1,
             entry2
           ])

@@ -6,14 +6,21 @@ const request = require('request')
 
 const lab = exports.lab = Lab.script()
 const describe = lab.describe
+const beforeEach = lab.beforeEach
 const it = lab.it
 const expect = Code.expect
 
 const buildServer = require('../server')
 
 describe('server', () => {
+  let server
+
+  beforeEach((done) => {
+    server = buildServer()
+    done()
+  })
+
   it('returns a 404 when accessing /', (done) => {
-    const server = buildServer()
     server.inject('/', (res) => {
       expect(res.statusCode).to.equal(404)
       done()
@@ -21,7 +28,7 @@ describe('server', () => {
   })
 
   it('successfully start', (done) => {
-    const server = buildServer({
+    server = buildServer({
       port: 5000
     })
     server.start((err) => {
@@ -34,6 +41,14 @@ describe('server', () => {
         expect(res.statusCode).to.equal(404)
         server.stop(done)
       })
+    })
+  })
+
+  it('returns an empty list when GET /talks', (done) => {
+    server.inject('/talks', (res) => {
+      expect(res.statusCode).to.equal(200)
+      expect(JSON.parse(res.payload)).to.equal([])
+      done()
     })
   })
 })

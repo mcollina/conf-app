@@ -25,7 +25,7 @@ exports.register = function (server, options, next) {
     config: {
       validate: {
         payload: {
-          title: Joi.string().min(3).required(),
+          title: Joi.string().min(3).required().description('aaa'),
           speaker: Joi.string().min(3).required()
         }
       }

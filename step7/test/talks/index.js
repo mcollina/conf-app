@@ -47,7 +47,7 @@ describe('talks', () => {
 
   it('should GET empty /talks', (done) => {
     server.inject({url: '/talks', credentials: testCredentials}, (res) => {
-      expect(JSON.parse(res.payload)).to.deep.equal([])
+      expect(JSON.parse(res.payload)).to.equal([])
       done()
     })
   })
@@ -67,7 +67,7 @@ describe('talks', () => {
       expect(res.statusCode).to.equal(201)
       expect(stored).to.include(expected)
       server.inject({url: '/talks', credentials: testCredentials}, (res) => {
-        expect(JSON.parse(res.payload)).to.deep.equal([stored])
+        expect(JSON.parse(res.payload)).to.equal([stored])
         done()
       })
     })
@@ -118,7 +118,7 @@ describe('talks', () => {
       expect(stored).to.include(expected)
       server.inject({url: '/talks/' + stored._id, credentials: testCredentials}, (res) => {
         expect(res.statusCode).to.equal(200)
-        expect(JSON.parse(res.payload)).to.deep.equal(stored)
+        expect(JSON.parse(res.payload)).to.equal(stored)
         done()
       })
     })

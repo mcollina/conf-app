@@ -21,14 +21,14 @@ describe('server', () => {
 
   it('should support a /talks endpoint', (done) => {
     server.inject('/talks', (res) => {
-      expect(JSON.parse(res.payload)).to.deep.equal([])
+      expect(JSON.parse(res.payload)).to.equal([])
       done()
     })
   })
 
   it('should GET empty /talks', (done) => {
     server.inject({ url: '/talks' }, (res) => {
-      expect(JSON.parse(res.payload)).to.deep.equal([])
+      expect(JSON.parse(res.payload)).to.equal([])
       done()
     })
   })
@@ -47,7 +47,7 @@ describe('server', () => {
       expect(res.statusCode).to.equal(201)
       expect(stored).to.include(expected)
       server.inject({url: '/talks'}, (res) => {
-        expect(JSON.parse(res.payload)).to.deep.equal([stored])
+        expect(JSON.parse(res.payload)).to.equal([stored])
         done()
       })
     })
@@ -67,7 +67,7 @@ describe('server', () => {
       expect(stored).to.include(expected)
       server.inject({url: '/talks/' + stored._id}, (res) => {
         expect(res.statusCode).to.equal(200)
-        expect(JSON.parse(res.payload)).to.deep.equal(stored)
+        expect(JSON.parse(res.payload)).to.equal(stored)
         done()
       })
     })
