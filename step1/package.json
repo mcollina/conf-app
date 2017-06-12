@@ -9,12 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^15.2.0",
+    "hapi": "^16.2.0",
     "minimist": "^1.2.0"
   },
   "devDependencies": {
     "code": "^4.0.0",
-    "lab": "^11.2.1",
+    "lab": "^13.0.0",
     "request": "^2.78.0"
   }
 }

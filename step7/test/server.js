@@ -14,14 +14,15 @@ const buildServer = require('../server')
 describe('server', () => {
   it('should start the server', (done) => {
     buildServer.start({
-      port: 0
+      port: 3042
     }, (err, server) => {
       if (err) { return done(err) }
 
-      request(server.info.uri, (err, res, body) => {
+      request('http://localhost:3042', (err, res, body) => {
         if (err) { return done(err) }
         expect(res.statusCode).to.equal(404)
-        done()
+
+        server.stop(done)
       })
     })
   })

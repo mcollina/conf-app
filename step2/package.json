@@ -9,11 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^15.2.0",
+    "hapi": "^16.4.3",
     "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "code": "^4.0.0",
-    "lab": "^11.2.1"
+    "code": "^4.1.0",
+    "lab": "^13.0.0"
   }
 }
